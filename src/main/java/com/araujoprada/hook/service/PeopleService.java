@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface PeopleService {
     List<People> getAll();
     Optional<People> getById(int id);
+    People save(People people);
 }

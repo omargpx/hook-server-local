@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DistrictDao extends JpaRepository<District,Integer> {
+    District findFirstByNameContains(String name);
 }

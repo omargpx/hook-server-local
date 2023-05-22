@@ -13,4 +13,10 @@ public interface UbigeoService {
     Department getDepartmentById(int id);
     Province getProvinceById(int id);
     District getDistrictById(int id);
+
+    //region filters
+    Department findDepartmentByName(String name);
+    Province findProvinceByName(String name);
+    District findDistrictByName(String name);
+    //endregion
 }

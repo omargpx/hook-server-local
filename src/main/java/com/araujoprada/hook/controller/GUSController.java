@@ -38,6 +38,10 @@ public class GUSController {
         String jsonContent = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         return new ResponseEntity<>(jsonContent, HttpStatus.OK);
     }
-
+    @RequestMapping("/**")
+    public ResponseEntity<?> handleInvalidRequest(HttpServletRequest request) {
+        infoResponse response = new infoResponse(request.getRequestURL().toString(),"Non-existent URL in hook_server. check the path entered",null);
+        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+    }
 
 }

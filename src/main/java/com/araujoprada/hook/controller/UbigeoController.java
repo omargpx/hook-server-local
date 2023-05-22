@@ -22,29 +22,38 @@ public class UbigeoController {
     private UbigeoService service;
 
     @GetMapping("/department")
-    public ResponseEntity<?> getDepartments(@RequestParam(name = "id",required = false)Integer id){
+    public ResponseEntity<?> getDepartments(@RequestParam(name = "id",required = false)Integer id,
+                                            @RequestParam(name = "name",required = false)String name){
         if(null!=id)
             return ResponseEntity.ok(service.getDepartmentById(id));
+        if(null!=name)
+            return ResponseEntity.ok(service.findDepartmentByName(name));
         return ResponseEntity.ok(service.getDepartments());
     }
 
     @GetMapping("/province")
-    public ResponseEntity<?> getProvinces(@RequestParam(name = "id",required = false)Integer id){
+    public ResponseEntity<?> getProvinces(@RequestParam(name = "id",required = false)Integer id,
+                                          @RequestParam(name = "name",required = false)String name){
         if(null!=id)
             return ResponseEntity.ok(service.getProvinceById(id));
+        if(null!=name)
+            return ResponseEntity.ok(service.findProvinceByName(name));
         return ResponseEntity.ok(service.getProvinces());
     }
 
     @GetMapping("/district")
-    public ResponseEntity<?> getDistricts(@RequestParam(name = "id",required = false)Integer id){
+    public ResponseEntity<?> getDistricts(@RequestParam(name = "id",required = false)Integer id,
+                                          @RequestParam(name = "name",required = false)String name){
         if (null!=id)
             return ResponseEntity.ok(service.getDistrictById(id));
+        if(null!=name)
+            return ResponseEntity.ok(service.findDistrictByName(name));
         return ResponseEntity.ok(service.getDistricts());
     }
 
     @RequestMapping("/**")
     public ResponseEntity<?> handleInvalidRequest(HttpServletRequest request) {
-        infoResponse response = new infoResponse(request.getRequestURL().toString(),"Wrong url. check the path entered",null);
+        infoResponse response = new infoResponse(request.getRequestURL().toString(),"Non-existent URL for Ubigeo API. check the path entered",null);
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
 }

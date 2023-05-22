@@ -53,4 +53,19 @@ public class UbigeoServiceImp implements UbigeoService {
     public District getDistrictById(int id) {
         return district_repo.findById(id).orElse(null);
     }
+
+    @Override
+    public Department findDepartmentByName(String name) {
+        return department_repo.findFirstByNameContains(name);
+    }
+
+    @Override
+    public Province findProvinceByName(String name) {
+        return province_repo.findFirstByNameContains(name);
+    }
+
+    @Override
+    public District findDistrictByName(String name) {
+        return district_repo.findFirstByNameContains(name);
+    }
 }

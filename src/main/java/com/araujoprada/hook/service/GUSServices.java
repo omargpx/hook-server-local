@@ -6,4 +6,6 @@ import java.util.Map;
 
 public interface GUSServices {
     Map<String,String> getSpecificHeaders(HttpServletRequest request);
+    String getCurrentYear();
+    String genSecureCode();
 }

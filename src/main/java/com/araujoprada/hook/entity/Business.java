@@ -1,5 +1,6 @@
 package com.araujoprada.hook.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Business implements Serializable {
     @Column(name = "di_business")
     private String direction;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "pBusiness",fetch = FetchType.LAZY)
     private List<People> people;
 
