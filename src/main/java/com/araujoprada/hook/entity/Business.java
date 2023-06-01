@@ -1,5 +1,7 @@
 package com.araujoprada.hook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,10 +26,10 @@ public class Business implements Serializable {
     @Column(name = "di_business")
     private String direction;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "pBusiness",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "pBusiness",fetch = FetchType.EAGER)
     private List<People> people;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     @OneToMany(mappedBy = "cBusiness",fetch = FetchType.LAZY)
     private List<Customer> customers;
 

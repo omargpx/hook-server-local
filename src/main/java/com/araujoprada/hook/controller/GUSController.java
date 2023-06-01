@@ -4,7 +4,7 @@ import com.araujoprada.hook.service.GUSServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import com.araujoprada.hook.model.infoResponse;
+import com.araujoprada.hook.model.InfoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,18 +29,18 @@ public class GUSController {
     @RequestMapping
     public ResponseEntity<?> handleWelcome(HttpServletRequest request){
         String url = request.getRequestURL().toString();
-        infoResponse response = new infoResponse(url,"Welcome to hook application",gus.getSpecificHeaders(request));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        InfoResponse response = new InfoResponse(url,"Welcome to hook application",gus.getSpecificHeaders(request));
+        return new ResponseEntity<>(response, HttpStatus.PARTIAL_CONTENT);
     }
     @RequestMapping(value = "/info",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> handleInfo(HttpServletRequest request) throws IOException {
         Resource resource = resourceLoader.getResource("classpath:info.json");
         String jsonContent = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        return new ResponseEntity<>(jsonContent, HttpStatus.OK);
+        return new ResponseEntity<>(jsonContent, HttpStatus.PARTIAL_CONTENT);
     }
     @RequestMapping("/**")
     public ResponseEntity<?> handleInvalidRequest(HttpServletRequest request) {
-        infoResponse response = new infoResponse(request.getRequestURL().toString(),"Non-existent URL in hook_server. check the path entered",null);
+        InfoResponse response = new InfoResponse(request.getRequestURL().toString(),"Non-existent URL in hook_server. check the path entered",null);
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
 

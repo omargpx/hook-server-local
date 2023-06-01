@@ -1,12 +1,15 @@
 package com.araujoprada.hook.service.logic;
 
+import com.araujoprada.hook.model.GUSResponse;
 import com.araujoprada.hook.service.GUSServices;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class GUSImp implements GUSServices {
@@ -34,12 +37,23 @@ public class GUSImp implements GUSServices {
     }
 
     @Override
-    public String genSecureCode() {
+    public String genSecureCode(String acronym) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 9; i++) {
             int index = sr.nextInt(ALPHA_NUMERIC_STRING.length());
             builder.append(ALPHA_NUMERIC_STRING.charAt(index));
         }
-        return builder.toString();
+        return acronym+getCurrentYear()+"-"+builder.toString();
+    }
+
+    @Override
+    public GUSResponse getResponse(HttpServletRequest url, String className, Object data, HttpStatus status) {
+        return new GUSResponse(url.getRequestURI(),className,data,status.name());
+    }
+
+    @Override
+    public String genIdentificationCode(String acronym) {
+        Random random = new Random();
+        return acronym+getCurrentYear()+"-"+random.nextInt(999999999);
     }
 }

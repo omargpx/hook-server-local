@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,8 +22,14 @@ public class People implements Serializable {
     @Column(name = "no_person")
     private String name;
 
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_peo_business")
     private Business pBusiness;
+
+
+    @ManyToMany
+    @JoinTable(name = "tmv_person_role",joinColumns = @JoinColumn(name = "id_person"),
+            inverseJoinColumns = @JoinColumn(name = "id_role"))
+    List<Role> roles;
 }

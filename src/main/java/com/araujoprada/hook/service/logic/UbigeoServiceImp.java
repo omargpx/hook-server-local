@@ -3,11 +3,14 @@ package com.araujoprada.hook.service.logic;
 import com.araujoprada.hook.entity.Department;
 import com.araujoprada.hook.entity.District;
 import com.araujoprada.hook.entity.Province;
+import com.araujoprada.hook.errors.GUSException;
+import com.araujoprada.hook.model.SERVICES;
 import com.araujoprada.hook.repo.DepartmentDao;
 import com.araujoprada.hook.repo.DistrictDao;
 import com.araujoprada.hook.repo.ProvinceDao;
 import com.araujoprada.hook.service.UbigeoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,46 +29,73 @@ public class UbigeoServiceImp implements UbigeoService {
 
     @Override
     public List<Department> getDepartments() {
-        return department_repo.findAll();
+        List<Department> departments = department_repo.findAll();
+        if(!departments.isEmpty())
+            return departments;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(), null, HttpStatus.NO_CONTENT);
     }
 
     @Override
     public List<Province> getProvinces() {
-        return province_repo.findAll();
+        List<Province> provinces = province_repo.findAll();
+        if (!provinces.isEmpty())
+            return provinces;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null, HttpStatus.NO_CONTENT);
     }
 
     @Override
     public List<District> getDistricts() {
-        return district_repo.findAll();
+        List<District> districts = district_repo.findAll();
+        if (!districts.isEmpty())
+            return districts;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null, HttpStatus.NO_CONTENT);
     }
 
     @Override
     public Department getDepartmentById(int id) {
-        return department_repo.findById(id).orElse(null);
+        Department department = department_repo.findById(id).orElse(null);
+        if(null!=department)
+            return department;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null, HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Province getProvinceById(int id) {
-        return province_repo.findById(id).orElse(null);
+        Province province = province_repo.findById(id).orElse(null);
+        if (null!=province)
+            return province;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null, HttpStatus.NOT_FOUND);
     }
 
     @Override
     public District getDistrictById(int id) {
-        return district_repo.findById(id).orElse(null);
+        District district = district_repo.findById(id).orElse(null);
+        if (null!=district)
+            return district;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null, HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Department findDepartmentByName(String name) {
-        return department_repo.findFirstByNameContains(name);
+        Department department = department_repo.findFirstByNameContains(name);
+        if(null!=department)
+            return department;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null, HttpStatus.NOT_FOUND);
     }
 
     @Override
     public Province findProvinceByName(String name) {
-        return province_repo.findFirstByNameContains(name);
+        Province province = province_repo.findFirstByNameContains(name);
+        if(null!=province)
+            return province;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null,HttpStatus.NOT_FOUND);
     }
 
     @Override
     public District findDistrictByName(String name) {
-        return district_repo.findFirstByNameContains(name);
+        District district = district_repo.findFirstByNameContains(name);
+        if(null!=district)
+            return district;
+        throw new GUSException(SERVICES.UBIGEO_SERVICE.name(),null,HttpStatus.NOT_FOUND);
     }
 }

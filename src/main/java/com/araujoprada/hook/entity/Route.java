@@ -17,9 +17,9 @@ public class Route implements Serializable {
     @Column(name = "id_route")
     private int id;
     @Column(name = "co_route")
-    private String code_route;
+    private String code;
     @Column(name = "no_route")
-    private String name_route;
+    private String name;
 
     @JsonIgnore
     @ManyToOne
@@ -27,6 +27,6 @@ public class Route implements Serializable {
     private Business business;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "route",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "route")
     private List<Customer> customers;
 }

@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     @Column(name = "de_reference")
     private String reference;
     @Column(name = "es_sale")
-    private boolean status_sale;
+    private boolean statusSale;
 
     @JsonIgnore
     @ManyToOne
@@ -40,10 +40,11 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "tsCustomer",fetch = FetchType.LAZY)
     private List<TrackingSale> trackingSales;
 
-    @OneToMany(mappedBy = "locCustomer",fetch = FetchType.EAGER)
-    private List<Location> location;
-
     @ManyToOne
     @JoinColumn(name = "id_cus_district")
     private District cusDistrict;
+
+    @OneToOne
+    @JoinColumn(name = "id_cus_location") //insertable = true ; updatable = true
+    private Location location;
 }
