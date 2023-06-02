@@ -35,7 +35,7 @@ public class Customer implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cus_routes")
-    private Route route;
+    private Route routeCustomer;
 
     @OneToMany(mappedBy = "tsCustomer",fetch = FetchType.LAZY)
     private List<TrackingSale> trackingSales;

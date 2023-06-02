@@ -77,11 +77,9 @@ public class CustomerController {
             throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
         Route route = routeService.findByCode(code_route);
         Business business = businessService.getById(businessId);
-        if(null==route)
-            throw new GUSException(serviceName,null,HttpStatus.NOT_FOUND);
-        customer.setRoute(route);
-        if(null==business)
-            throw new GUSException(serviceName,null,HttpStatus.NOT_FOUND);
+        if(null==route || null==business)
+            throw new GUSException(serviceName,null,HttpStatus.BAD_REQUEST);
+        customer.setRouteCustomer(route);
         customer.setCBusiness(business);
         return ResponseEntity.ok(gus.getResponse(request,serviceName,service.save(customer),HttpStatus.OK));
     }

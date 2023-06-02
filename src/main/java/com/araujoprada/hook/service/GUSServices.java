@@ -12,4 +12,5 @@ public interface GUSServices {
     String genSecureCode(String acronym);
     GUSResponse getResponse(HttpServletRequest url, String className,Object data, HttpStatus status);
     String genIdentificationCode(String acronym);
+    Object OAuthAccountLoginCredential(String identify);
 }

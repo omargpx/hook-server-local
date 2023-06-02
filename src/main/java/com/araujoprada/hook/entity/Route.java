@@ -27,6 +27,10 @@ public class Route implements Serializable {
     private Business business;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "routeCustomer")
     private List<Customer> customers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "route")
+    private List<Bundle> bundles;
 }

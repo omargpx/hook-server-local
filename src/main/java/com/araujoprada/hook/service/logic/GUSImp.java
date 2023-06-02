@@ -1,15 +1,17 @@
 package com.araujoprada.hook.service.logic;
 
+import com.araujoprada.hook.entity.People;
+import com.araujoprada.hook.errors.GUSException;
 import com.araujoprada.hook.model.GUSResponse;
+import com.araujoprada.hook.model.SERVICES;
+import com.araujoprada.hook.repo.PeopleDao;
 import com.araujoprada.hook.service.GUSServices;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class GUSImp implements GUSServices {
@@ -17,6 +19,8 @@ public class GUSImp implements GUSServices {
     //region attributes
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345678987654321abcdefghijklmnñopqrstuvxyz";
     private static final SecureRandom sr = new SecureRandom();
+    @Autowired
+    private PeopleDao peopleDao;
     //endregion
 
     @Override
@@ -55,5 +59,13 @@ public class GUSImp implements GUSServices {
     public String genIdentificationCode(String acronym) {
         Random random = new Random();
         return acronym+getCurrentYear()+"-"+random.nextInt(999999999);
+    }
+
+    @Override
+    public Object OAuthAccountLoginCredential(String identify) {
+        People credentials = peopleDao.findByIdentificationContains(identify);
+        if (!Objects.equals(identify,credentials.getIdentification()))
+            throw new GUSException(SERVICES.GUS_SERVICE.name(), null,HttpStatus.UNAUTHORIZED);
+        return credentials;
     }
 }

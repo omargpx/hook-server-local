@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PeopleDao extends JpaRepository<People,Integer> {
     People findFirstByNameContains(String name);
+    People findByIdentificationContains(String identification);
 }

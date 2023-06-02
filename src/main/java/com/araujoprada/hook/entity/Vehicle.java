@@ -1,9 +1,11 @@
 package com.araujoprada.hook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,7 +24,12 @@ public class Vehicle implements Serializable {
     @Column(name = "brand")
     private String brand;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_vehicles_business")
     private Business vBusiness;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "vehicle")
+    private List<Bundle> bundles;
 }

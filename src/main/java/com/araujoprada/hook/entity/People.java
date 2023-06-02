@@ -21,6 +21,8 @@ public class People implements Serializable {
     private String code;
     @Column(name = "no_person")
     private String name;
+    @Column(name = "nu_identification")
+    private String identification;
 
     @JsonIgnore
     @ManyToOne
