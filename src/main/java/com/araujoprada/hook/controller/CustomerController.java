@@ -54,6 +54,17 @@ public class CustomerController {
         return ResponseEntity.ok(gus.getResponse(request,serviceName,service.getAll(),HttpStatus.OK));
     }
 
+    @PutMapping("/prepare")
+    public ResponseEntity<?> prepareCustomer(@RequestParam(name = "token",required = false)String TOKEN,
+                                             @RequestParam(name = "customerId",required = false)Integer customer_id,
+                                             @RequestParam(name = "status",required = false)Boolean status,
+                                             HttpServletRequest request){
+        if(!Objects.equals(TOKEN, env.getProperty("config.hook-access.security-token-permission")))
+            throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
+        Customer customer = service.getById(customer_id);
+        customer.setStatusSale(Objects.requireNonNullElse(status,false));
+        return ResponseEntity.ok(gus.getResponse(request,serviceName,service.save(customer),HttpStatus.OK));
+    }
 
     @GetMapping("/filter")
     public ResponseEntity<?> getCustomersByRoutes(@RequestParam(name = "token",required = false)String TOKEN,

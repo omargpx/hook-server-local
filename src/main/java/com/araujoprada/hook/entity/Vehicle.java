@@ -1,6 +1,7 @@
 package com.araujoprada.hook.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,7 +25,7 @@ public class Vehicle implements Serializable {
     @Column(name = "brand")
     private String brand;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"people","customers","vehicles","bssDistrict"})
     @ManyToOne
     @JoinColumn(name = "id_vehicles_business")
     private Business vBusiness;

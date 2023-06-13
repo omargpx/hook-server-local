@@ -1,6 +1,7 @@
 package com.araujoprada.hook.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class Role implements Serializable {
     @Column
     private String description;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"pbusiness","roles"})
     @ManyToMany(mappedBy = "roles")
     List<People> people;
 }

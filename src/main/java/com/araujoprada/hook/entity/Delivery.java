@@ -1,5 +1,6 @@
 package com.araujoprada.hook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,9 +18,18 @@ public class Delivery implements Serializable {
     private String time;
     @Column(name = "nu_difficulty")
     private char difficulty;
-    @Column(name = "es_delivery")
-    private boolean status;
-    private int id_vehicleRoute;//TODO: join whit the trust tables
-    private int id_customer;
+    @Column(name = "ti_pay")
+    private char pay;
+    @Column(name = "desc_delivery")
+    private String description;
 
+    @JsonIgnoreProperties({"vehicle","route","deliveries"})
+    @ManyToOne
+    @JoinColumn(name = "id_delivery_vehicle_route")
+    private Bundle bundle;// vehicle_routes
+
+    @JsonIgnoreProperties({"routeCustomer","trackingSales","cusDistrict","deliveries"})
+    @ManyToOne
+    @JoinColumn(name = "id_delivery_customer")
+    private Customer customer;
 }

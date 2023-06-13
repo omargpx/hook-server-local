@@ -1,6 +1,7 @@
 package com.araujoprada.hook.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class Location implements Serializable {
     @Column(name = "co_log")
     private String longitude;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"location"})
     @OneToOne(mappedBy = "location", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Customer customers;
 }

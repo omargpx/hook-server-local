@@ -2,6 +2,7 @@ package com.araujoprada.hook.service.logic;
 
 import com.araujoprada.hook.entity.Customer;
 import com.araujoprada.hook.errors.GUSException;
+import com.araujoprada.hook.model.CustomerDTO;
 import com.araujoprada.hook.model.SERVICES;
 import com.araujoprada.hook.repo.CustomerDao;
 import com.araujoprada.hook.service.CustomerService;
@@ -60,10 +61,10 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public List<Customer> findCustomersByRoutes(String code, boolean status) {
-        List<Customer> customers = repo.filterCustomerByRoutes(code,status);
-        if(!customers.isEmpty())
-            return customers;
+    public List<CustomerDTO> findCustomersByRoutes(String code, boolean status) {
+        List<CustomerDTO> customersDto = gus.convertCustomersToDtoList(repo.filterCustomerByRoutes(code,status));
+        if(!customersDto.isEmpty())
+            return customersDto;
         throw new GUSException(SERVICES.CUSTOMER_SERVICE.name(), null,HttpStatus.NOT_FOUND);
     }
 

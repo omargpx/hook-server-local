@@ -1,6 +1,7 @@
 package com.araujoprada.hook.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class Department implements Serializable {
     @Column(name = "no_department")
     private String name;
 
+    @JsonIgnoreProperties({"districts","department"})
     @OneToMany(mappedBy = "department")
-    @JsonIgnore
     private List<Province> provinces;
 }

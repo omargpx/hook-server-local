@@ -2,6 +2,7 @@ package com.araujoprada.hook.service;
 
 import com.araujoprada.hook.entity.Customer;
 import com.araujoprada.hook.entity.Route;
+import com.araujoprada.hook.model.CustomerDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,7 @@ public interface CustomerService {
     //region filters
     List<Customer> findByName(String name);
     List<Customer> getAllByStatus(boolean statusSale);
-    List<Customer> findCustomersByRoutes(String code,boolean status);
+    List<CustomerDTO> findCustomersByRoutes(String code, boolean status);
     Customer findByIdentification(String identification);
     //endregion
 }

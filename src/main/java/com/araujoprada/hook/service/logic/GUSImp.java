@@ -1,7 +1,9 @@
 package com.araujoprada.hook.service.logic;
 
+import com.araujoprada.hook.entity.Customer;
 import com.araujoprada.hook.entity.People;
 import com.araujoprada.hook.errors.GUSException;
+import com.araujoprada.hook.model.CustomerDTO;
 import com.araujoprada.hook.model.GUSResponse;
 import com.araujoprada.hook.model.SERVICES;
 import com.araujoprada.hook.repo.PeopleDao;
@@ -67,5 +69,16 @@ public class GUSImp implements GUSServices {
         if (!Objects.equals(identify,credentials.getIdentification()))
             throw new GUSException(SERVICES.GUS_SERVICE.name(), null,HttpStatus.UNAUTHORIZED);
         return credentials;
+    }
+
+    @Override
+    public List<CustomerDTO> convertCustomersToDtoList(List<Customer> customers) {
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        for (Customer customer : customers){
+            customerDTOList.add(CustomerDTO.builder().id(customer.getId()).name(customer.getName()).identification(customer.getIdentification())
+                    .reference(customer.getReference()).direction(customer.getDirection()).statusSale(customer.isStatusSale())
+                    .ruta(customer.getRouteCustomer()).build());
+        }
+        return customerDTOList;
     }
 }

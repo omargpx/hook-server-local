@@ -1,5 +1,6 @@
 package com.araujoprada.hook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class TrackingSale implements Serializable {
     @Column(name = "ti_sale")
     private char type_sale;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_ts_customer")
     private Customer tsCustomer;

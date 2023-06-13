@@ -1,6 +1,5 @@
 package com.araujoprada.hook.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,24 +26,29 @@ public class Customer implements Serializable {
     @Column(name = "es_sale")
     private boolean statusSale;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"people","customers","vehicles","bssDistrict"})
     @ManyToOne
     @JoinColumn(name = "id_cus_business")
     private Business cBusiness;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_cus_routes")
     private Route routeCustomer;
 
     @OneToMany(mappedBy = "tsCustomer",fetch = FetchType.LAZY)
     private List<TrackingSale> trackingSales;
 
+    @JsonIgnoreProperties({"province"})
     @ManyToOne
     @JoinColumn(name = "id_cus_district")
     private District cusDistrict;
 
+    @JsonIgnoreProperties({"customers"})
     @OneToOne
     @JoinColumn(name = "id_cus_location") //insertable = true ; updatable = true
     private Location location;
+
+    @JsonIgnoreProperties({"bundle","customer"})
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    private List<Delivery> deliveries;
 }

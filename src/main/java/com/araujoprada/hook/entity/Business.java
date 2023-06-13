@@ -26,13 +26,15 @@ public class Business implements Serializable {
     @Column(name = "di_business")
     private String direction;
 
+    @JsonIgnoreProperties({"pbusiness","roles"})
     @OneToMany(mappedBy = "pBusiness",fetch = FetchType.EAGER)
     private List<People> people;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    @JsonIgnoreProperties({"deliveries","trackingSales","cbusiness"})
     @OneToMany(mappedBy = "cBusiness",fetch = FetchType.LAZY)
     private List<Customer> customers;
 
+    @JsonIgnoreProperties({"cbusiness"})
     @OneToMany(mappedBy = "vBusiness",fetch = FetchType.EAGER)
     private List<Vehicle> vehicles;
 
