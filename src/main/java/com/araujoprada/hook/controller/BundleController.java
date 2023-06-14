@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @RestController
@@ -44,6 +45,19 @@ public class BundleController {
         if(null!=id)
             return ResponseEntity.ok(gus.getResponse(request,serviceName,service.getById(id),HttpStatus.OK));
         return ResponseEntity.ok(gus.getResponse(request,serviceName,service.getAll(),HttpStatus.OK));
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<?> findByDateBetween(@RequestParam(name = "token",required = false)String TOKEN,
+                                               @RequestParam(name = "init",required = false)LocalDate init,
+                                               @RequestParam(name = "end",required = false)LocalDate end,
+                                               HttpServletRequest request){
+        if(!Objects.equals(TOKEN, env.getProperty("config.hook-access.security-token-permission")))
+            throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
+        if(null!=init && null!=end)
+            return ResponseEntity.ok(gus.getResponse(request,serviceName,service.getBundlesByDate(init,end),HttpStatus.OK));
+        LocalDate today = LocalDate.now();
+        return ResponseEntity.ok(gus.getResponse(request,serviceName,service.getBundlesByDate(today.minusDays(1),today.plusDays(1)),HttpStatus.OK));
     }
 
     @PostMapping("/add")

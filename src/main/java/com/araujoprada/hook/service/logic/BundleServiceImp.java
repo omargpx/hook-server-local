@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -37,5 +38,13 @@ public class BundleServiceImp implements BundleService {
     @Override
     public Bundle save(Bundle bundle) {
         return repo.save(bundle);
+    }
+
+    @Override
+    public List<Bundle> getBundlesByDate(LocalDate init, LocalDate end) {
+        List<Bundle> bundles = repo.findByExecutionBetween(init,end);
+        if(!bundles.isEmpty())
+            return bundles;
+        throw new GUSException(SERVICES.BUNDLE_SERVICE.name(),null, HttpStatus.NOT_FOUND);
     }
 }
