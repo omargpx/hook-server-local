@@ -3,7 +3,7 @@
      "version": "1.0",
     "description": "Hook API to connect with clients and routes"
   },
-  "permission":["distributor","administrator","developer"],
+  "permission":["distributor","administrator","seller"],
   "public_paths": {
     "Ubigeo": [
       "/ubigeo/department?",

@@ -84,12 +84,12 @@ public class BundleController {
             throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
         Bundle bundle = service.getById(id);
         // Set de content en caso de que sea null que permanezca igual
-        bundle.setRoute(Objects.requireNonNullElse(up_bundle.getRoute(),bundle.getRoute()));
-        bundle.setInit(Objects.requireNonNullElse(up_bundle.getInit(),bundle.getInit()));
-        bundle.setEnd(Objects.requireNonNullElse(up_bundle.getEnd(),bundle.getEnd()));
-        bundle.setExecution(Objects.requireNonNullElse(up_bundle.getExecution(),bundle.getExecution()));
-        bundle.setVehicle(Objects.requireNonNullElse(up_bundle.getVehicle(),bundle.getVehicle()));
-        bundle.setName(Objects.requireNonNullElse(up_bundle.getName(),bundle.getName()));
+        bundle.setRoute(up_bundle.getRoute() !=null ? up_bundle.getRoute() : bundle.getRoute());
+        bundle.setInit(up_bundle.getInit() != null ? up_bundle.getInit() : bundle.getInit());
+        bundle.setEnd(up_bundle.getEnd() != null ? up_bundle.getEnd() : bundle.getEnd());
+        bundle.setExecution(up_bundle.getExecution() != null? up_bundle.getExecution() : bundle.getExecution());
+        bundle.setVehicle(up_bundle.getVehicle() != null? up_bundle.getVehicle() : bundle.getVehicle());
+        bundle.setName(up_bundle.getName() != null ? up_bundle.getName() : bundle.getName());
         return ResponseEntity.ok(gus.getResponse(request,serviceName,service.save(bundle),HttpStatus.OK));
     }
 }
