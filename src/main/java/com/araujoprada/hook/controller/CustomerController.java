@@ -95,6 +95,24 @@ public class CustomerController {
         return ResponseEntity.ok(gus.getResponse(request,serviceName,service.save(customer),HttpStatus.OK));
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCustomer(@RequestParam(name = "token",required = false)String TOKEN,
+                                            @RequestParam(name = "id",required = false)Integer id,
+                                            @RequestBody Customer c, HttpServletRequest request){
+        if(!Objects.equals(TOKEN, env.getProperty("config.hook-access.security-token-permission")))
+            throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
+        Customer customer = service.getById(id);
+        customer.setIdentification(Objects.requireNonNullElse(c.getIdentification(),customer.getIdentification()));
+        customer.setName(Objects.requireNonNullElse(c.getName(),customer.getName()));
+        customer.setRouteCustomer(Objects.requireNonNullElse(c.getRouteCustomer(),customer.getRouteCustomer()));
+        customer.setDirection(Objects.requireNonNullElse(c.getDirection(),customer.getDirection()));
+        customer.setReference(Objects.requireNonNullElse(c.getReference(),customer.getReference()));
+        customer.setCusDistrict(Objects.requireNonNullElse(c.getCusDistrict(),customer.getCusDistrict()));
+        customer.setCBusiness(Objects.requireNonNullElse(c.getCBusiness(),customer.getCBusiness()));
+        customer.setLocation(Objects.requireNonNullElse(c.getLocation(),customer.getLocation()));
+        return ResponseEntity.ok(gus.getResponse(request,serviceName,service.save(customer),HttpStatus.OK));
+    }
+
     @PutMapping("/setLocation")
     public ResponseEntity<?> setLocation(@RequestParam(name = "token")String TOKEN,
                                          @RequestParam(name = "id")Integer id,

@@ -80,9 +80,9 @@ public class BundleController {
     public ResponseEntity<?> updateBundle(@RequestParam(name = "token",required = false)String TOKEN,
                                           @RequestParam(name = "id",required = false)Integer id,
                                           @RequestBody Bundle up_bundle, HttpServletRequest request){
+        if(!Objects.equals(TOKEN, env.getProperty("config.hook-access.security-token-permission")))
+            throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
         Bundle bundle = service.getById(id);
-        if(null==bundle)
-            throw new GUSException(serviceName,up_bundle,HttpStatus.BAD_REQUEST);
         // Set de content en caso de que sea null que permanezca igual
         bundle.setRoute(Objects.requireNonNullElse(up_bundle.getRoute(),bundle.getRoute()));
         bundle.setInit(Objects.requireNonNullElse(up_bundle.getInit(),bundle.getInit()));

@@ -2,7 +2,7 @@ package com.araujoprada.hook.model;
 
 public enum PaymentType{
     TRANSFERENCE(1,"Transferencia bancaria"),
-    MOBILE_BANK(2,"Banca Móvil"),
+    CREDIT(2,"Crédito"),
     CASH(3, "Al contado");
 
     private final int order;
