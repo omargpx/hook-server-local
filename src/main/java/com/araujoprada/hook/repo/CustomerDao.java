@@ -20,5 +20,8 @@ public interface CustomerDao extends JpaRepository<Customer,Integer> {
 
     //@Query(value = "SELECT C.* FROM  TAX_ROUTES R JOIN TMA_CUSTOMERS C ON C.id_cus_routes=R.id_route WHERE R.co_route=:code AND C.es_sale=:status", nativeQuery = true)
     @Query("SELECT c FROM Route r JOIN r.customers c WHERE r.code = :code AND c.statusSale = :status")
-    List<Customer> filterCustomerByRoutes(@Param("code")String code, @Param("status")boolean status);
+    List<Customer> filterCustomerByRouteAndStatus(@Param("code")String code, @Param("status")boolean status);
+
+    @Query("SELECT c FROM Route r JOIN r.customers c WHERE r.code = :code")
+    List<Customer> filterCustomerByRoute(@Param("code")String code);
 }

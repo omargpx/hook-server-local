@@ -73,10 +73,9 @@ public class CustomerController {
                                                   HttpServletRequest request){
         if(!Objects.equals(TOKEN, env.getProperty("config.hook-access.security-token-permission")))
             throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
-        if(null!=code)
-            return ResponseEntity.ok(gus.getResponse(request,serviceName,service.findCustomersByRoutes(code,
-                    Objects.requireNonNullElse(status,false)),HttpStatus.OK));
-        return ResponseEntity.ok(gus.getResponse(request,serviceName,service.getAll(),HttpStatus.OK));
+        if(null!=code && null!=status)
+            return ResponseEntity.ok(gus.getResponse(request,serviceName,service.filterCustomerByRouteAndStatus(code, status),HttpStatus.OK));
+        return ResponseEntity.ok(gus.getResponse(request,serviceName,service.filterCustomersByRoute(code),HttpStatus.OK));
     }
 
     @PostMapping("/new")
@@ -102,14 +101,15 @@ public class CustomerController {
         if(!Objects.equals(TOKEN, env.getProperty("config.hook-access.security-token-permission")))
             throw new GUSException(serviceName,null, HttpStatus.UNAUTHORIZED);
         Customer customer = service.getById(id);
-        customer.setIdentification(Objects.requireNonNullElse(c.getIdentification(),customer.getIdentification()));
-        customer.setName(Objects.requireNonNullElse(c.getName(),customer.getName()));
-        customer.setRouteCustomer(Objects.requireNonNullElse(c.getRouteCustomer(),customer.getRouteCustomer()));
-        customer.setDirection(Objects.requireNonNullElse(c.getDirection(),customer.getDirection()));
-        customer.setReference(Objects.requireNonNullElse(c.getReference(),customer.getReference()));
-        customer.setCusDistrict(Objects.requireNonNullElse(c.getCusDistrict(),customer.getCusDistrict()));
-        customer.setCBusiness(Objects.requireNonNullElse(c.getCBusiness(),customer.getCBusiness()));
-        customer.setLocation(Objects.requireNonNullElse(c.getLocation(),customer.getLocation()));
+        customer.setIdentification(c.getIdentification() != null? c.getIdentification() : customer.getIdentification());
+        customer.setPhone(c.getPhone() != null ? c.getPhone() : customer.getPhone());
+        customer.setName(c.getName() != null ? c.getName() : customer.getName());
+        customer.setRouteCustomer(c.getRouteCustomer() != null ? c.getRouteCustomer() : customer.getRouteCustomer());
+        customer.setDirection(c.getDirection() != null ? c.getDirection() : customer.getDirection());
+        customer.setReference(c.getReference() != null ? c.getReference() : customer.getReference());
+        customer.setCusDistrict(c.getCusDistrict() != null ? c.getCusDistrict() : customer.getCusDistrict());
+        customer.setCBusiness(c.getCBusiness() != null ? c.getCBusiness() : customer.getCBusiness());
+        customer.setLocation(c.getLocation() != null ? c.getLocation() : customer.getLocation());
         return ResponseEntity.ok(gus.getResponse(request,serviceName,service.save(customer),HttpStatus.OK));
     }
 

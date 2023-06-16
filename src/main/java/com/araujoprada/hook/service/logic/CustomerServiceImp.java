@@ -61,8 +61,8 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public List<CustomerDTO> findCustomersByRoutes(String code, boolean status) {
-        List<CustomerDTO> customersDto = gus.convertCustomersToDtoList(repo.filterCustomerByRoutes(code,status));
+    public List<CustomerDTO> filterCustomerByRouteAndStatus(String code, boolean status) {
+        List<CustomerDTO> customersDto = gus.convertCustomersToDtoList(repo.filterCustomerByRouteAndStatus(code,status));
         if(!customersDto.isEmpty())
             return customersDto;
         throw new GUSException(SERVICES.CUSTOMER_SERVICE.name(), null,HttpStatus.NOT_FOUND);
@@ -73,6 +73,14 @@ public class CustomerServiceImp implements CustomerService {
         Customer customer = repo.findByIdentification(identification);
         if(null!=customer)
             return customer;
+        throw new GUSException(SERVICES.CUSTOMER_SERVICE.name(), null,HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public List<CustomerDTO> filterCustomersByRoute(String code) {
+        List<CustomerDTO> customersDto = gus.convertCustomersToDtoList(repo.filterCustomerByRoute(code));
+        if(!customersDto.isEmpty())
+            return customersDto;
         throw new GUSException(SERVICES.CUSTOMER_SERVICE.name(), null,HttpStatus.NOT_FOUND);
     }
 }

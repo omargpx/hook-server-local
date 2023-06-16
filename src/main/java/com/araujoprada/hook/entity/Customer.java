@@ -19,6 +19,8 @@ public class Customer implements Serializable {
     private String name;
     @Column(name = "nu_identification")
     private String identification;
+    @Column(name = "nu_phone")
+    private String phone;
     @Column(name = "di_customer")
     private String direction;
     @Column(name = "de_reference")

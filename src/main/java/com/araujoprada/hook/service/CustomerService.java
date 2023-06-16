@@ -15,7 +15,8 @@ public interface CustomerService {
     //region filters
     List<Customer> findByName(String name);
     List<Customer> getAllByStatus(boolean statusSale);
-    List<CustomerDTO> findCustomersByRoutes(String code, boolean status);
+    List<CustomerDTO> filterCustomerByRouteAndStatus(String code, boolean status);
     Customer findByIdentification(String identification);
+    List<CustomerDTO> filterCustomersByRoute(String code);
     //endregion
 }
